@@ -1,0 +1,10 @@
+[
+    { "ContactID": 1, "contactFullName": "John Doe", "contactTitle": "CEO", "department": "Management", "photo": "https://modelagency.one/wp-content/uploads/2018/02/london-uk-modeling-agency-list-casting-shows.jpg" },
+    { "ContactID": 2, "contactFullName": "Lisa Smith", "contactTitle": "Product Engineer", "department": "Marketing", "photo": "http://themysteriousgirl.ro/wp-content/uploads/2016/02/themysteriousgirl.ro-larisacostea-8484-20160219.jpg" },
+    { "ContactID": 3, "contactFullName": "Jane Jameson", "contactTitle": "Web Designer", "department": "Design", "photo": "https://modelagency.one/wp-content/uploads/2018/02/london-uk-modeling-agency-list-casting-shows.jpg" },
+    { "ContactID": 4, "contactFullName": "Harry Smith", "contactTitle": "JS Developer", "department": "Software", "photo": "https://photo-forum.net/imgs_medium/2018-08/1534255644_DJI_0793-HDR-1x1-FF.jpg" },
+    { "ContactID": 5, "contactFullName": "Peter Doe", "contactTitle": "Computer Engineer", "department": "Hardware", "photo": "http://themysteriousgirl.ro/wp-content/uploads/2016/02/themysteriousgirl.ro-larisacostea-8484-20160219.jpg" },
+    { "ContactID": 6, "contactFullName": "Steve Tylor", "contactTitle": "Customer Advisor", "department": "Sales", "photo": "https://photo-forum.net/imgs_medium/2018-08/1534255644_DJI_0793-HDR-1x1-FF.jpg" },
+    { "ContactID": 7, "contactFullName":"Alex Alexson", "contactTitle": "Accountant", "department": "Human Resourses", "photo": "https://modelagency.one/wp-content/uploads/2018/02/london-uk-modeling-agency-list-casting-shows.jpg" },
+    { "ContactID": 8, "contactFullName":"Mike Port", "contactTitle": "CTO", "department": "Management", "photo": "http://themysteriousgirl.ro/wp-content/uploads/2016/02/themysteriousgirl.ro-larisacostea-8484-20160219.jpg" }
+]
