@@ -38,14 +38,13 @@ const MailInbox = ({
                 data={process(emails, gridDataState)}
                 pageable={true}
                 sortable={true}
-                // scrollable="none"
                 {...gridDataState}
                 onDataStateChange={handleGridDataStateChange}
                 className="site-grid">
-                <GridColumn field="sender" width="250px" title="Sender" />
-                <GridColumn field="title" width="380px" title="Title" />
-                <GridColumn field="content" title="Content" />
-                <GridColumn field="date" width="200px" title="Date" />
+                <GridColumn field="sender" width="350px" title="SENDER" />
+                <GridColumn field="title" width="450px" title="TITLE" />
+                <GridColumn field="content" title="CONTENT" />
+                <GridColumn field="date" width="200px" title="DATE" />
             </Grid>
 
             {windowVisible

@@ -1,15 +1,16 @@
 .site-grid-container {
     margin-top: 10px; 
-    width: 1470px;
     height: 100%;
 
     .site-grid {
         border-radius: 4px;
         overflow: hidden;  
+        width: 96vw;
 
         thead a, thead a:hover {
             color: white;
             font-size: 16px;
+            font-weight: 400;
         }
 
         td {
