@@ -1,6 +1,5 @@
 .site-header {
-    background: url("../../../assets/background-image.png") no-repeat;
-    background-size: cover;
+    background-color: #3F51B5;
     color: #f3f3f3;
     display: flex;
     padding-left: 50px;
@@ -14,6 +13,6 @@
     }
 
     .header-info {
-        font-size: 13px;
+        font-size: 14px;
     }
 }

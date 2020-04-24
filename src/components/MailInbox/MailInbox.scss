@@ -1,11 +1,10 @@
 .site-grid-container {
     margin-top: 10px; 
     width: 1470px;
+    height: 100%;
 
     .site-grid {
-        height: 500px;
-        background-color: #3F51B5;
-        border-radius: 8px;
+        border-radius: 4px;
         overflow: hidden;  
 
         thead a, thead a:hover {
@@ -21,8 +20,7 @@
     }
 
     .k-grid-header {
-        background: rgb(2,48,130);
-        background: linear-gradient(1deg, rgba(2,48,130,1) 0%, rgba(113,124,189,1) 49%, rgba(213,217,239,1) 100%);
+        background-color: #3F51B5;
     }
 
     .k-i-sort-asc-sm::before {

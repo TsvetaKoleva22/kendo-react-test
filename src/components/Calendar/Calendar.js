@@ -13,8 +13,8 @@ const Calendar = ({
         <Scheduler data={events}
             onDataChange={handleDataChange}
             editable={{ add: true, remove: true, drag: true, resize: true, edit: true }}
-            height={500}
-            className="site-scheduler">
+            className="site-scheduler"
+            height='100%'>
             <AgendaView />
             <DayView editable />
             <WeekView title="Full Week" />

@@ -38,6 +38,7 @@ const MailInbox = ({
                 data={process(emails, gridDataState)}
                 pageable={true}
                 sortable={true}
+                // scrollable="none"
                 {...gridDataState}
                 onDataStateChange={handleGridDataStateChange}
                 className="site-grid">
