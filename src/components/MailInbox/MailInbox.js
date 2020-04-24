@@ -9,12 +9,14 @@ import { Window } from '@progress/kendo-react-dialogs';
 const MailInbox = ({
     emails
 }) => {
-    const [gridDataState, setGridDataState] = useState({
-        sort: [
-            { field: "sender", dir: "asc" }
-        ],
-        page: { skip: 0, take: 10 }
-    });
+    const dataState = {
+        sort: [{ field: "sender", dir: "asc" }],
+        take: 10,
+        skip: 0
+    }; 
+
+    const [gridDataState, setGridDataState] = useState(dataState);
+
     const [windowVisible, setWindowVisible] = useState(false);
     const [gridClickedRow, setGridClickedRow] = useState({});
 
