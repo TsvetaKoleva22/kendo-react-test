@@ -1,0 +1,19 @@
+.site-header {
+    background: url("../../../assets/background-image.png") no-repeat;
+    background-size: cover;
+    color: #f3f3f3;
+    display: flex;
+    padding-left: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 50px 20px;
+
+    .header-title {
+        margin: 0;
+    }
+
+    .header-info {
+        font-size: 13px;
+    }
+}

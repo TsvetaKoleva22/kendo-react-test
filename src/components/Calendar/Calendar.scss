@@ -1,0 +1,25 @@
+.site-scheduler-container {
+    margin-top: 10px;
+    border: 1px solid #3F51B5;
+    border-radius: 8px;
+    overflow: hidden;  
+}
+
+.site-scheduler {
+    color: #3F51B5; 
+    width: 1470px;
+  
+    .k-scheduler-toolbar {
+        background: rgb(2,48,130);
+        background: linear-gradient(1deg, rgba(2,48,130,1) 0%, rgba(113,124,189,1) 55%, rgb(142, 147, 175) 100%);
+        color: white;
+    }
+
+    .k-scheduler-footer {
+        background-color: #f8e2c2;
+    }
+
+    .k-event {
+        background: rgb(73, 91, 192);
+    }
+}

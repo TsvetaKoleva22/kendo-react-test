@@ -1,0 +1,78 @@
+.site-grid-container {
+    margin-top: 10px; 
+
+    .site-grid {
+        height: 500px;
+        background-color: #3F51B5;
+        border-radius: 8px;
+        overflow: hidden;  
+
+        thead a, thead a:hover {
+            color: white;
+            font-size: 16px;
+        }
+
+        td {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .k-grid-header {
+        background: rgb(2,48,130);
+        background: linear-gradient(1deg, rgba(2,48,130,1) 0%, rgba(113,124,189,1) 49%, rgba(213,217,239,1) 100%);
+    }
+
+    .k-i-sort-asc-sm::before {
+        content: "\e013";
+        color: white;
+    }
+    
+    .k-i-sort-desc-sm::before {
+        content: "\e015";
+        color: white;
+    }
+
+    .k-pager-numbers .k-link:hover {
+        background-color: #FFF3E1;
+    }
+    
+    .k-pager-numbers .k-link.k-state-selected {
+        background-color: #FFE0B2;
+    }
+
+    .k-window-titlebar {
+        background-color: white;
+        border-bottom: 2px solid #909AD4;  
+        color: rgb(253, 185, 83);
+
+        .k-button-icon {
+            border-radius: 20px;
+        }
+    }
+    
+    .k-window-title {
+        color: #909AD4;
+        font-weight: bold;
+    }
+}
+
+.email-content {
+    background-color: white;
+    border: 1px solid rgb(182, 188, 223);
+    border-radius: 5px;
+    padding: 10px;
+    line-height: 1.5;
+    min-height: 100px;
+}
+
+.email-info {
+    font-weight: bold;
+    color: #3F51B5; 
+    letter-spacing: 0.10em;
+}
+
+.email-body {
+    margin-top: 30px;
+}

@@ -2,31 +2,23 @@ import React, { useState } from 'react';
 import '@progress/kendo-theme-material/dist/all.css';
 import './App.scss';
 
-import { process } from '@progress/kendo-data-query';
 import { Button } from '@progress/kendo-react-buttons'
-import { Grid, GridColumn } from '@progress/kendo-react-grid';
-import { Window } from '@progress/kendo-react-dialogs';
 import { TabStrip, TabStripTab } from '@progress/kendo-react-layout';
-import { Card, CardHeader, CardTitle, CardBody, CardSubtitle, Avatar } from '@progress/kendo-react-layout';
-import { Scheduler, AgendaView, DayView, WeekView, WorkWeekView, MonthView } from '@progress/kendo-react-scheduler';
-import { Day } from '@progress/kendo-date-math';
 import { guid } from '@progress/kendo-react-common';
 
-const CLIENT_ID = '569432039070-biskr5sghnha219qvsl41jc4evgjkmvm.apps.googleusercontent.com';
-const API_KEY = 'AIzaSyDaqaJPy603eFK1Jqr7ClB54ep0jkMWO-w';
+import Header from './components/common/Header';
+import Footer from './components/common/Footer';
+import MailInbox from './components/MailInbox';
+import Calendar from './components/Calendar';
+import Contacts from './components/Contacts';
+
+const CLIENT_ID = '662100423876-6t4i513ifkbp445limevil1r5fse9f4b.apps.googleusercontent.com';
+const API_KEY = 'AIzaSyCN-kc8wJLga7AIuYIwISvXTwRQeULyANc';
 const SCOPE_CONTACTS = 'https://www.googleapis.com/auth/contacts.readonly';
 const SCOPE_GMAIL = 'https://www.googleapis.com/auth/gmail.readonly';
 const SCOPE_CALENDAR = "https://www.googleapis.com/auth/calendar.readonly";
 
 const App = () => {
-    const [gridDataState, setGridDataState] = useState({
-        sort: [
-            { field: "sender", dir: "asc" }
-        ],
-        page: { skip: 0, take: 10 }
-    });
-    const [windowVisible, setWindowVisible] = useState(false);
-    const [gridClickedRow, setGridClickedRow] = useState({});
     const [selected, setSelected] = useState(0);
 
     const [emails, setEmails] = useState([]);
@@ -118,28 +110,43 @@ const App = () => {
     const getContactsGapi = () => {
         const handleAuthorization = (authorizationResult) => {
             if (authorizationResult && !authorizationResult.error) {
-                fetch(`https://www.google.com/m8/feeds/contacts/default/thin?alt=json&access_token=${authorizationResult.access_token}&max-results=25&updated-min=2020-03-30T00:00:00&v=3.0`)
+                fetch(`https://www.google.com/m8/feeds/contacts/default/full?alt=json&access_token=${authorizationResult.access_token}&max-results=25&v=3.0`)
                     .then((response) => {
                         return response.json();
                     })
                     .then((res) => {
                         let contactsResult = res.feed.entry;
+                        contactsResult = contactsResult.filter(c => c.gd$name);
 
                         contactsResult.forEach(c => {
-                            let contactFullName = c.gd$name.gd$fullName.$t;
-                            let contactTitle = c.gd$organization[0].gd$orgTitle.$t;
-                            let department = c.gd$organization[0].gd$orgName.$t;
-                            let photoLink = c.link[0].href;
 
-                            fetch(`${photoLink}&access_token=${authorizationResult.access_token}`)
-                                .then((response) => {
-                                    let photo = response.url;
-                                    let newContact = { contactFullName, contactTitle, department, photo }
-                                    setContacts(oldContacts => [...oldContacts, newContact]);
-                                })
-                                .catch((err) => {
-                                    console.log(err);
-                                })
+                            const tryFn = (fn, fallback = null) => {
+                                try {
+                                    return fn();
+                                } catch (error) {
+                                    return fallback;
+                                }
+                            }
+
+                            let contactFullName = tryFn(() => c.gd$name.gd$fullName.$t, 'No full name');
+                            let contactTitle = tryFn(() => c.gd$organization[0].gd$orgTitle.$t, 'No title');
+                            let department = tryFn(() => c.gd$organization[0].gd$orgName.$t, 'No department');
+                            let photoLink = tryFn(() => c.link[0].href);
+
+                            if (photoLink) {
+                                fetch(`${photoLink}&access_token=${authorizationResult.access_token}`)
+                                    .then((response) => {
+                                        let photo = response.url;
+                                        let newContact = { contactFullName, contactTitle, department, photo }
+                                        setContacts(oldContacts => [...oldContacts, newContact]);
+                                    })
+                                    .catch((err) => {
+                                        console.log(err);
+                                    })
+                            } else {
+                                let newContact = { contactFullName, contactTitle, department, photo: '' }
+                                setContacts(oldContacts => [...oldContacts, newContact]);
+                            }
                         })
                     })
                     .catch((err) => {
@@ -154,19 +161,6 @@ const App = () => {
 
         window.gapi.client.setApiKey(API_KEY);
         window.setTimeout(authorize);
-    }
-
-    const handleGridDataStateChange = (e) => {
-        setGridDataState(e.data);
-    }
-
-    const closeWindow = (e) => {
-        setWindowVisible(false);
-    }
-
-    const handleGridRowClick = (e) => {
-        setWindowVisible(true);
-        setGridClickedRow(e.dataItem);
     }
 
     const handleSelect = (e) => {
@@ -186,9 +180,7 @@ const App = () => {
 
     return (
         <div className="site-wrapper">
-            <header className="site-header">
-                <h1 className="header-title">Kendo Sample App</h1>
-            </header>
+            <Header />
 
             <div className="site-content">
                 <TabStrip selected={selected} onSelect={handleSelect} className="site-tab-strip">
@@ -196,58 +188,14 @@ const App = () => {
                         {!emails.length
                             ? (<Button primary={true} onClick={getEmailsGapi}>Get Emails</Button>)
                             : null}
-
-                        <div className="site-grid-container">
-                            <Grid
-                                onRowClick={handleGridRowClick}
-                                data={process(emails, gridDataState)}
-                                pageable={true}
-                                sortable={true}
-                                {...gridDataState}
-                                onDataStateChange={handleGridDataStateChange}
-                                className="site-grid">
-                                <GridColumn field="sender" width="250px" title="Sender" />
-                                <GridColumn field="title" width="380px" title="Title" />
-                                <GridColumn field="content" title="Content" />
-                                <GridColumn field="date" width="200px" title="Date" />
-                            </Grid>
-
-                            {windowVisible
-                                ? <Window
-                                    title="Email Details"
-                                    onClose={closeWindow}
-                                    height={400}
-                                    width={650}
-                                    style={{ backgroundColor: '#fdf7ed' }}>
-                                    <h4><span className="email-info">Title:</span> {gridClickedRow.Title}</h4>
-                                    <p><span className="email-info">From:</span> {gridClickedRow.Sender}</p>
-                                    <div className="email-body">
-                                        <p className="email-info">Content: </p>
-                                        <p className="email-content">{gridClickedRow.Content}</p>
-                                    </div>
-                                </Window>
-                                : null
-                            }
-                        </div>
+                        <MailInbox emails={emails} />
                     </TabStripTab>
 
                     <TabStripTab title="Calendar">
                         {!events.length
                             ? (<Button primary={true} onClick={getEventsGapi}>Get Events</Button>)
                             : null}
-                        <div className="site-scheduler-container">
-                            <Scheduler data={events}
-                                onDataChange={handleDataChange}
-                                editable={{ add: true, remove: true, drag: true, resize: true, edit: true }}
-                                height={500}
-                                className="site-scheduler">
-                                <AgendaView />
-                                <DayView editable />
-                                <WeekView title="Full Week" />
-                                <WorkWeekView title="Work Week" workWeekStart={Day.Monday} workWeekEnd={Day.Thursday} />
-                                <MonthView editable />
-                            </Scheduler>
-                        </div>
+                        <Calendar events={events} handleDataChange={handleDataChange} />
                     </TabStripTab>
 
                     <TabStripTab title="Contacts">
@@ -256,31 +204,13 @@ const App = () => {
                                 <Button primary={true} onClick={getContactsGapi}>Get contacts</Button>
                                 <h4>Please, press the button to load contacts...</h4>
                             </div>)
-                            : (<div className="site-cards-container">
-                                {contacts.map(card => (
-                                    <Card key={card.contactFullName} className="site-single-card">
-                                        <CardHeader className="k-hbox" >
-                                            <Avatar type='image' shape='circle'><img src={card.photo} alt='' /></Avatar>
-                                            <div>
-                                                <CardTitle style={{ marginBottom: '4px' }}>{card.contactFullName}</CardTitle>
-                                                <CardSubtitle><p>{card.contactTitle}</p></CardSubtitle>
-                                            </div>
-                                        </CardHeader>
-                                        <CardBody className="card-body"><p>{card.department}</p></CardBody>
-                                    </Card>
-                                ))}
-                            </div>)}
+                            : <Contacts contacts={contacts} />}
                     </TabStripTab>
                 </TabStrip>
 
             </div>
 
-            <footer className="site-footer">
-                <div>
-                    {'Copyright © Motion Software '}
-                    {new Date().getFullYear()}
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }
